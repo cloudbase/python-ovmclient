@@ -3,7 +3,7 @@ Python Oracle VM Client
 
 * Author:         Cloudbase Solutions
 * Contact:        info@cloudbasesolutions.com
-* Home page:      http://cloudbase.it
+* Home page:      https://cloudbase.it
 * Source:         https://github.com/cloudbase/python-ovmclient
 * License:        Apache 2.0
 
@@ -104,7 +104,6 @@ Cloning a VM
 How to clone a VM or a VM template::
 
     import ovmclient
-    from ovmclient import constants
 
     client = ovmclient.Client(
         'https://host:7002/ovm/core/wsapi/rest', 'admin', 'yadayada')
@@ -140,7 +139,6 @@ Discovering servers
 How to discover and take ownership of an unowned Oracle VM host::
 
     import ovmclient
-    from ovmclient import constants
 
     client = ovmclient.Client(
         'https://host:7002/ovm/core/wsapi/rest', 'admin', 'yadayada')

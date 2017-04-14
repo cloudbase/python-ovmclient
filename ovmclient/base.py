@@ -62,6 +62,10 @@ class BaseManager(object):
     def delete(self, id):
         return self._conn.delete(self._get_id_url(id))
 
+    def _get_resource(self, id, resource_name, params={}):
+        rel_url = "%s/%s" % (self._get_id_url(id), resource_name)
+        return self._conn.get(rel_url, params)
+
     def _action(self, id, action_name, data=None, params={}):
         rel_url = "%s/%s" % (self._get_id_url(id), action_name)
         return self._conn.put(rel_url, data, params)

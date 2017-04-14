@@ -75,6 +75,12 @@ class JobManager(base.BaseManager):
     def __init__(self, conn):
         super(JobManager, self).__init__(conn, 'Job')
 
+    def get_transcript(self, id):
+        return self._get_resource(id, "transcript")
+
+    def abort(self, id):
+        return self._action(id, "abort")
+
     def wait_for_job(self, job, sleep_seconds=.5):
         while not job.get('summaryDone'):
             time.sleep(sleep_seconds)
@@ -142,6 +148,13 @@ class VirtualDiskManager(base.BaseManager):
             rel_path = 'VirtualDisk'
         super(VirtualDiskManager, self).__init__(conn, rel_path)
 
+    def clone(self, id, clone_target_id,
+              clone_type=constants.CLONE_TYPE_NON_SPARSE_COPY):
+        params = {
+            "cloneType": clone_type,
+        }
+        return self._action(id, "clone", clone_target_id, params)
+
 
 class VirtualNicManager(base.BaseManager):
     def __init__(self, conn, vm_id):
@@ -175,12 +188,10 @@ class VmManager(base.BaseManager):
         return self._action(id, "resume")
 
     def get_console_url(self, id):
-        rel_url = "Vm/%s/vmConsoleUrl" % self._get_id_value(id)
-        return self._conn.get(rel_url)
+        return self._get_resource(id, "vmConsoleUrl")
 
     def get_serial_console_url(self, id):
-        rel_url = "Vm/%s/vmSerialConsoleUrl" % self._get_id_value(id)
-        return self._conn.get(rel_url)
+        return self._get_resource(id, "vmSerialConsoleUrl")
 
     def clone(self, id, server_pool_id,
               repository_id=None, vm_clone_definition_id=None,

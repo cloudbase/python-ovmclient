@@ -41,9 +41,9 @@ class Connection(object):
         except ValueError:
             return response.text
 
-    def get(self, rel_path):
+    def get(self, rel_path, params={}):
         return self._get_response_data(
-            self._session.get(self._get_url(rel_path)))
+            self._session.get(self._get_url(rel_path, params)))
 
     def post(self, rel_path, data, params={}):
         data_json = json.dumps(data)

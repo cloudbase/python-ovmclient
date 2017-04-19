@@ -166,6 +166,9 @@ class VirtualDiskManager(base.BaseManager):
         }
         return self._action(id, "resize", params=params)
 
+    def get_empty_cdrom(self):
+        return self._conn.get("VirtualDisk/virtualDiskGetEmptyCdrom")
+
 
 class VirtualNicManager(base.BaseManager):
     def __init__(self, conn, vm_id):

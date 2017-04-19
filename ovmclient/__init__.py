@@ -159,6 +159,13 @@ class VirtualDiskManager(base.BaseManager):
         }
         return self._action(id, "clone", clone_target_id, params)
 
+    def resize(self, id, size, sparse):
+        params = {
+            "size": size,
+            "sparse": sparse,
+        }
+        return self._action(id, "resize", params=params)
+
 
 class VirtualNicManager(base.BaseManager):
     def __init__(self, conn, vm_id):

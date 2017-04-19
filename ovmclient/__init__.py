@@ -31,6 +31,10 @@ class Client(object):
         return VmManager(self._conn)
 
     @property
+    def disk_mappings(self):
+        return VmDiskMappingManager(self._conn)
+
+    @property
     def jobs(self):
         return JobManager(self._conn)
 
@@ -211,6 +215,10 @@ class VmManager(base.BaseManager):
 
 
 class VmDiskMappingManager(base.BaseManager):
-    def __init__(self, conn, vm_id):
-        super(VmDiskMappingManager, self).__init__(
-            conn, 'Vm/%s/VmDiskMapping' % self._get_id_value(vm_id))
+    def __init__(self, conn, vm_id=None):
+        if vm_id:
+            rel_path = 'Vm/%s/VmDiskMapping' % self._get_id_value(vm_id)
+        else:
+            rel_path = 'VmDiskMapping'
+
+        super(VmDiskMappingManager, self).__init__(conn, rel_path)

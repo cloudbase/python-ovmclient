@@ -68,6 +68,10 @@ class Client(object):
     def virtual_disks(self):
         return VirtualDiskManager(self._conn)
 
+    @property
+    def virtual_nics(self):
+        return VirtualNicManager(self._conn)
+
     def vm_virtual_nics(self, vm_id):
         return VirtualNicManager(self._conn, vm_id)
 
@@ -171,9 +175,12 @@ class VirtualDiskManager(base.BaseManager):
 
 
 class VirtualNicManager(base.BaseManager):
-    def __init__(self, conn, vm_id):
-        super(VirtualNicManager, self).__init__(
-            conn, "Vm/%s/VirtualNic" % self._get_id_value(vm_id))
+    def __init__(self, conn, vm_id=None):
+        if vm_id:
+            rel_path = "Vm/%s/VirtualNic" % self._get_id_value(vm_id)
+        else:
+            rel_path = 'VirtualNic'
+        super(VirtualNicManager, self).__init__(conn, rel_path)
 
 
 class VmManager(base.BaseManager):

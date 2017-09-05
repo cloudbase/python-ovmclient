@@ -129,6 +129,15 @@ class RepositoryManager(base.BaseManager):
     def __init__(self, conn):
         super(RepositoryManager, self).__init__(conn, 'Repository')
 
+    def import_assembly(self, id, urls, proxy=None):
+        data = {"urls": urls, "proxy": proxy}
+        return self._action(id, "importAssembly", data=data)
+
+    def export_as_assembly(self, id, name, vm_ids):
+        params = {"name": name}
+        # vm_ids is a list of vm ids in simpeId format
+        return self._action(id, "exportAsAssembly", params=params, data=vm_ids)
+
 
 class ServerManager(base.BaseManager):
     def __init__(self, conn):

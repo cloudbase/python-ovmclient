@@ -50,6 +50,10 @@ class Client(object):
     def repositories(self):
         return RepositoryManager(self._conn)
 
+    @property
+    def repository_exports(self):
+        return RepositoryExportManager(self._conn)
+
     def repository_virtual_disks(self, repository_id):
         return VirtualDiskManager(self._conn, repository_id)
 
@@ -63,6 +67,9 @@ class Client(object):
     @property
     def server_pools(self):
         return ServerPoolManager(self._conn)
+
+    def server_repository_exports(self, server_id):
+        return RepositoryExportManager(self._conn, server_id)
 
     @property
     def virtual_disks(self):
@@ -137,6 +144,16 @@ class RepositoryManager(base.BaseManager):
         params = {"name": name}
         # vm_ids is a list of vm ids in simpeId format
         return self._action(id, "exportAsAssembly", params=params, data=vm_ids)
+
+
+class RepositoryExportManager(base.BaseManager):
+    def __init__(self, conn, server_id=None):
+        if server_id:
+            rel_path = "Server/%s/RepositoryExport" % self._get_id_value(
+                server_id)
+        else:
+            rel_path = 'RepositoryExport'
+        super(RepositoryExportManager, self).__init__(conn, rel_path)
 
 
 class ServerManager(base.BaseManager):

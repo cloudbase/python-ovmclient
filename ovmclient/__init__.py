@@ -172,6 +172,14 @@ class ServerPoolManager(base.BaseManager):
     def __init__(self, conn):
         super(ServerPoolManager, self).__init__(conn, 'ServerPool')
 
+    def add_server(self, id, server_id):
+        # server_id is in simpleId format
+        return self._action(id, "addServer", data=server_id)
+
+    def remove_server(self, id, server_id):
+        # server_id is in simpleId format
+        return self._action(id, "removeServer", data=server_id)
+
 
 class VirtualDiskManager(base.BaseManager):
     def __init__(self, conn, repository_id=None):

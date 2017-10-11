@@ -61,6 +61,9 @@ class Client(object):
     def servers(self):
         return ServerManager(self._conn)
 
+    def server_pool_servers(self, server_pool_id):
+        return ServerManager(self._conn, server_pool_id)
+
     def server_networks(self, server_id):
         return NetworkManager(self._conn, server_id)
 
@@ -161,8 +164,13 @@ class RepositoryExportManager(base.BaseManager):
 
 
 class ServerManager(base.BaseManager):
-    def __init__(self, conn):
-        super(ServerManager, self).__init__(conn, 'Server')
+    def __init__(self, conn, server_pool_id=None):
+        if server_pool_id:
+            rel_path = "ServerPool/%s/Server" % self._get_id_value(
+                server_pool_id)
+        else:
+            rel_path = 'Server'
+        super(ServerManager, self).__init__(conn, rel_path)
 
     def discover(self, server_name, take_ownership_if_unowned=True):
         params = {

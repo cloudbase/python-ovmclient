@@ -85,6 +85,10 @@ class Client(object):
     def vm_disk_mappings(self, vm_id):
         return VmDiskMappingManager(self._conn, vm_id)
 
+    @property
+    def assemblies(self):
+        return AssemblyManager(self._conn)
+
 
 class JobManager(base.BaseManager):
     def __init__(self, conn):
@@ -273,3 +277,8 @@ class VmDiskMappingManager(base.BaseManager):
             rel_path = 'VmDiskMapping'
 
         super(VmDiskMappingManager, self).__init__(conn, rel_path)
+
+
+class AssemblyManager(base.BaseManager):
+    def __init__(self, conn):
+        super(AssemblyManager, self).__init__(conn, "Assembly")

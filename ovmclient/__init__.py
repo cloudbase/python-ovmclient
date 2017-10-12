@@ -92,6 +92,9 @@ class Client(object):
     def assemblies(self):
         return AssemblyManager(self._conn)
 
+    def repository_assemblies(self, repository_id):
+        return AssemblyManager(self._conn, repository_id)
+
 
 class JobManager(base.BaseManager):
     def __init__(self, conn):
@@ -288,5 +291,10 @@ class VmDiskMappingManager(base.BaseManager):
 
 
 class AssemblyManager(base.BaseManager):
-    def __init__(self, conn):
-        super(AssemblyManager, self).__init__(conn, "Assembly")
+    def __init__(self, conn, repository_id=None):
+        if repository_id:
+            rel_path = "Repository/%s/Assembly" % self._get_id_value(
+                repository_id)
+        else:
+            rel_path = 'Assembly'
+        super(AssemblyManager, self).__init__(conn, rel_path)
